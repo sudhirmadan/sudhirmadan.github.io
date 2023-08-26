@@ -1,4 +1,4 @@
-document.write("<style>"+
+var str_css = 
 	"@keyframes loadingAnimate{from {-webkit-transform: rotateY(0deg) scale(0.8);-o-transform: rotateY(0deg) scale(0.8);-ms-transform: rotateY(0deg) scale(0.8);-moz-transform: rotateY(0deg) scale(0.8);transform: rotateY(0deg) scale(0.8);}to {-webkit-transform: rotateY(-180deg) scale(0.8);-o-transform: rotateY(-180deg) scale(0.8);-ms-transform: rotateY(-180deg) scale(0.8);-moz-transform: rotateY(-180deg) scale(0.8);transform: rotateY(-180deg) scale(0.8);}}"+
 	"@-webkit-keyframes loadingAnimate{from {-webkit-transform: rotateY(0deg) scale(0.8);-o-transform: rotateY(0deg) scale(0.8);-ms-transform: rotateY(0deg) scale(0.8);-moz-transform: rotateY(0deg) scale(0.8);transform: rotateY(0deg) scale(0.8);}to {-webkit-transform: rotateY(-180deg) scale(0.8);-o-transform: rotateY(-180deg) scale(0.8);-ms-transform: rotateY(-180deg) scale(0.8);-moz-transform: rotateY(-180deg) scale(0.8);transform: rotateY(-180deg) scale(0.8);}}"+
 	".loadingRun{-webkit-animation : loadingAnimate 1.2s infinite;animation : loadingAnimate 1.2s infinite;}" + 
@@ -6,8 +6,21 @@ document.write("<style>"+
 ".loader {margin: 60px auto;font-size: 10px;position: relative;text-indent: -9999em;border-top: 1.1em solid rgba(255, 255, 255, 0.2);border-right: 1.1em solid rgba(255, 255, 255, 0.2);border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);" + 
   "border-left: 1.1em solid #ffffff;-webkit-transform: translateZ(0);-ms-transform: translateZ(0);transform: translateZ(0);-webkit-animation: load8 1.1s infinite linear;animation: load8 1.1s infinite linear;}" +
  "@-webkit-keyframes load8 {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);transform: rotate(360deg);}}" +
- "@keyframes load8 {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);transform: rotate(360deg);}}" +
-"</style>");
+ "@keyframes load8 {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(360deg);transform: rotate(360deg);}}";
+
+function add_css(str_css) {
+	try { //IE下可行
+		var style = document.createStyleSheet();
+		style.cssText = str_css;
+	} catch (e) { //Firefox,Opera,Safari,Chrome下可行
+		var style = document.createElement("style");
+		style.type = "text/css";
+		style.textContent = str_css;
+		document.getElementsByTagName("HEAD").item(0).appendChild(style);
+	}
+}
+
+add_css(str_css);
 
 var videoImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAABYCAYAAAAUeMJLAAAABHNCSVQICAgIfAhkiAAABRBJREFUeF7tnb2rHUUYxp8H/wBjo6Wd2ARvesFYCTbJBRtBMCqmsAhGEPEDTNBCBSGQQrQxkYhCiqhNRBAjtkJu8APBSgu1EExEwaj4ynPdve7ds4dzdmZ2Z+fu+8LlwLkz884+v/l4z+zsDrHEzOwQgA0AB6vPfcvS+vdJFbgKYAvAJX2SfL+rdLa/NDPBerOClbRGXliQAoL4EEl97tgucGb2PIATQcV7pqEVOEHyZO1kB5yZCZjAuU1XgeMkT6l62+Cq4fFyR33PAjhTjbUae90GVsDMFEtoujoC4MEOdwc0bNbgBE2Ja7sG4DBJTZBumRQwMwWG7wG4sVEFBSwHaGaHAVxo1e1uh5aJVsttBe+T1tebAtee286SVDd1m4gCZqbpqjlsnhQ4DYd3NerovW0iwOpqdPS6TwXuFwDNH9c3kfRAZELwqoBFnGq7KnDWrCPJhR/lXdfQzpfiOnP5zuVXmoX6dnAR4uVsrA7OwcW3v9BhI9ZzLr8+VEaSc3CFCujgHFxvBUIbjQcnHpz0bmwLGUJbX6znXH6zBCexYnn+fgosLJSErpz0c+upYxVwcLEKZsrv4DIJH+vWwcUqmCm/g8skfKxbBxerYKb8Di6T8LFu9wQ4M7sBwG3aWUjym1hRSshfPDgzewDAqwBurgT/GcDbAJ4j+VsJEELqWDQ4M7sdwJcA1OPa9h2AoyQ/ChFm6nlKB3cewH0rRH4LwDGS2tS7Z6x0cD8BuGUNGj8CeIykdgHvCSsdnLYNNrdjr4IicI+S1DxYtM0NnGAJmobOd0omN0dwNS8FLQpeFMQUZ3MGJ1i/A3gGwGmSuzYCT53k3MHVfD4D8AjJb6cOrK6fg/uf1B8A9GjuKyT/mTpAB7dI6HMAD5P8YsrwHFw3nb8AvAzgRZLXpwiwdHDtR8JSa/wVgHtJfp+64NjyHNxqBb8GoAfk/1yddLwUDm49rdXrLq6XdJxUpYPru+QVqurTJF8KzTxEPge3nqr3k3x3vaTjpHJwq3X+FcCtU3sOvnRwQ0eVWhI7RPLj1XzHTVE6uCHnuEkvgzm4xY6iO+VPAXhjygvPDm43OG0yepKk7phP2hzcf3iK21g0d3C6C3AawLMkFYgUY3MGp9V/3QXQ3YDibI7gtNr/QnXfTXcBirS5gZt0iN+nBc0FnHZ2PQHg3JRD/DmB+xDAPSsuWCH+43thL2XzOkvvcV2vIa6vr7gQfzY9ThdqZq9rf2Tjov8G8BoA3YopKsSfFbgK3n4Ad4ojgA9I/tBHhBLTFj1Ulih4qjo7uFRKjlyOgxtZ8FTuHFwqJUcux8GNLHgqdw4ulZIjl+PgRhY8lTsHl0rJkctxcCMLnspdMnDtglJUMNcrdnP5lWahvv1l2hHi5WysDs7Bxbe/0GEj1nMuvz5URpJzcIUK6OAcXG8FQhuNBycenPRubAsZQltfrOdcfmODk/ajS364bWxLSJy/43Dba36cdGKRhyhu2XHSfoD7EGonLHPZAe5dexX9EPeEwscU1dHbVNzm9pnfZrYF4I6GA817myQvxTj1vHEKVNAuANjXKOkKyY0a3AaAyx1uzgDQnxILptvAClSBiDrRkeqv7VFvPdraBlf1uvZcN3AVvfgABY6TPLX9M6KZ2cwcXoCaI2XZgbYArup5GjY1PDbnvJHq5m46FLiiIVPDY/N/u3pcq/cp2hTEg9Vnn9fGO4FwBfT6DkFSYLi17OyEfwGiWm1shbv/BgAAAABJRU5ErkJggg==";
 var parseBool = function(value,defaultValue){
@@ -41,6 +54,115 @@ var isIphoneXor11 = function(){
 	return isIphone() && ((screen.height == 812 && screen.width == 375)||(screen.height == 896 && screen.width == 414));
 }
 
+// 判断条件: 根据主色调的 hsl
+// h的区间：[0,49],[50,190],[191,360]
+// s 不用判断
+// l的区间：[0,39],[40,60],[61,100]
+function getTitleColor(mainHsl) {
+  let [h, s, l] = mainHsl;
+  let temp = l;
+  temp = 95;
+  if (h > 49 && h < 191) {
+    if (l > 39 && l < 101) temp = 20;
+  } else {
+    if (l > 60 && l < 101) temp = 20;
+  }
+  // if (l > 60 && l < 101) {
+  //   if (h < 50 || h > 190) temp = 20;
+  // }
+  return [h, s, temp];
+}
+function hexToRgba(hex, opacity=1) {
+  if (!hex) hex = "#0076fe";
+  let r = parseInt("0x" + hex.slice(1, 3));
+  let g = parseInt("0x" + hex.slice(3, 5));
+  let b = parseInt("0x" + hex.slice(5, 7));
+  let a = opacity;
+  return [r, g, b];
+}
+function rgbtohsl(r, g, b) {
+  r = r / 255;
+  g = g / 255;
+  b = b / 255;
+
+  var min = Math.min(r, g, b);
+  var max = Math.max(r, g, b);
+  var l = (min + max) / 2;
+  var difference = max - min;
+  var h, s, l;
+  if (max == min) {
+    h = 0;
+    s = 0;
+  } else {
+    s = l > 0.5 ? difference / (2.0 - max - min) : difference / (max + min);
+    switch (max) {
+      case r:
+        h = (g - b) / difference + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = 2.0 + (b - r) / difference;
+        break;
+      case b:
+        h = 4.0 + (r - g) / difference;
+        break;
+    }
+    h = Math.round(h * 60);
+  }
+  s = Math.round(s * 100); //转换成百分比的形式
+  l = Math.round(l * 100);
+  return [h, s, l];
+}
+function hsltorgb(h, s, l) {
+  var h = h / 360;
+  var s = s / 100;
+  var l = l / 100;
+  var rgb = [];
+
+  if (s == 0) {
+    rgb = [Math.round(l * 255), Math.round(l * 255), Math.round(l * 255)];
+  } else {
+    var q = l >= 0.5 ? l + s - l * s : l * (1 + s);
+    var p = 2 * l - q;
+    var tr = (rgb[0] = h + 1 / 3);
+    var tg = (rgb[1] = h);
+    var tb = (rgb[2] = h - 1 / 3);
+    for (var i = 0; i < rgb.length; i++) {
+      var tc = rgb[i];
+      if (tc < 0) {
+        tc = tc + 1;
+      } else if (tc > 1) {
+        tc = tc - 1;
+      }
+      switch (true) {
+        case tc < 1 / 6:
+          tc = p + (q - p) * 6 * tc;
+          break;
+        case 1 / 6 <= tc && tc < 0.5:
+          tc = q;
+          break;
+        case 0.5 <= tc && tc < 2 / 3:
+          tc = p + (q - p) * (4 - 6 * tc);
+          break;
+        default:
+          tc = p;
+          break;
+      }
+      rgb[i] = Math.round(tc * 255);
+    }
+  }
+  return rgb;
+}
+function rgbToStr(r, g, b) {
+  let rr = "00" + r.toString(16);
+  let gg = "00" + g.toString(16);
+  let bb = "00" + b.toString(16);
+
+  rr = rr.substr(rr.length - 2, 2);
+  gg = gg.substr(gg.length - 2, 2);
+  bb = bb.substr(bb.length - 2, 2);
+  return "#" + rr + gg + bb;
+}
+
 window.waitForLoading = true;
 var LoadingJS = function(){
 	this.initConfig();
@@ -62,23 +184,38 @@ var LoadingJS = function(){
 LoadingJS.prototype = {
 
 	initConfig : function(){
-		if(!window.bookConfig && window.htmlConfig && window.htmlConfig.bookConfig) {
-			window.bookConfig = window.htmlConfig.bookConfig;
+		if(!window.loadingConfig && window.bookConfig && typeof(window.bookConfig) != 'string') {
+			window.loadingConfig = window.bookConfig;
+		}
+		if(!window.loadingConfig && window.htmlConfig && window.htmlConfig.bookConfig && typeof(window.htmlConfig.bookConfig) != 'string') {
+			window.loadingConfig = window.htmlConfig.bookConfig;
+		}
+		if(window.htmlConfig && window.htmlConfig.loadingConfig) {
+			window.loadingConfig = window.htmlConfig.loadingConfig;
 		}
 		try{
-		  this.loadingCaption = bookConfig.loadingCaption ? bookConfig.loadingCaption : document.title;
-		  this.loadingCaptionFontSize = !isNaN(bookConfig.loadingCaptionFontSize) ? parseInt(bookConfig.loadingCaptionFontSize) : 28;
+			this.loadingMainColor = loadingConfig.loadingMainColor ? loadingConfig.loadingMainColor : "";
+			if(this.loadingMainColor) {
+				let [mainR,mainG,mainB]=hexToRgba(this.loadingMainColor)
+				let [mainH, mainS, mainL] = rgbtohsl(mainR,mainG,mainB);
+				let [titleH, titleS, titleL] = getTitleColor([mainH, mainS, mainL]);
+				this.loadingBackground=`hsl(${mainH},${mainS}%,${mainL}%)`
+				this.loadingCaptionColor=`hsl(${titleH},${titleS}%,${titleL}%)`
+			} else {
+				this.loadingCaptionColor = loadingConfig.loadingCaptionColor ? loadingConfig.loadingCaptionColor : "#DDDDDD";
+				this.loadingBackground = loadingConfig.loadingBackground ? loadingConfig.loadingBackground : "#1F2232";
+			}
+		  this.loadingCaption = loadingConfig.loadingCaption ? loadingConfig.loadingCaption : document.title;
+		  this.loadingCaptionFontSize = !isNaN(loadingConfig.loadingCaptionFontSize) ? parseInt(loadingConfig.loadingCaptionFontSize) : 28;
 		  this.loadingCaptionFontSize = Math.min(100, this.loadingCaptionFontSize);
 		  this.loadingCaptionFontSize = Math.max(0, this.loadingCaptionFontSize);
-		  this.loadingCaptionColor = bookConfig.loadingCaptionColor ? bookConfig.loadingCaptionColor : "#DDDDDD";
-		  this.loadingBackground = bookConfig.loadingBackground ? bookConfig.loadingBackground : "#1F2232";
-		  this.loadingPicture = bookConfig.loadingPicture ? bookConfig.loadingPicture : "";
-		//   this.loadingPictureWidth = !isNaN(bookConfig.loadingPictureWidth) ? parseInt(bookConfig.loadingPictureWidth) : 80;
-		  this.loadingPictureHeight = !isNaN(bookConfig.loadingPictureHeight) ? parseInt(bookConfig.loadingPictureHeight) : 150;
-		  this.loadingDisplayTime = !isNaN(bookConfig.loadingDisplayTime) ? parseInt(bookConfig.loadingDisplayTime) : 0;
-		  this.loadingSpacing = !isNaN(bookConfig.loadingSpacing) ? parseInt(bookConfig.loadingSpacing) : 20;
-		  this.showLoadingGif = (bookConfig.showLoadingGif != undefined) ? parseBool(bookConfig.showLoadingGif, true) : true;
-		  this.loadingVideo = bookConfig.loadingVideo ? bookConfig.loadingVideo : "";
+		  this.loadingPicture = loadingConfig.loadingPicture ? loadingConfig.loadingPicture : "";
+		//   this.loadingPictureWidth = !isNaN(loadingConfig.loadingPictureWidth) ? parseInt(loadingConfig.loadingPictureWidth) : 80;
+		  this.loadingPictureHeight = !isNaN(loadingConfig.loadingPictureHeight) ? parseInt(loadingConfig.loadingPictureHeight) : 150;
+		  this.loadingDisplayTime = !isNaN(loadingConfig.loadingDisplayTime) ? parseInt(loadingConfig.loadingDisplayTime) : 0;
+		  this.loadingSpacing = !isNaN(loadingConfig.loadingSpacing) ? parseInt(loadingConfig.loadingSpacing) : 20;
+		  this.showLoadingGif = (loadingConfig.showLoadingGif != undefined) ? parseBool(loadingConfig.showLoadingGif, true) : true;
+		  this.loadingVideo = loadingConfig.loadingVideo ? loadingConfig.loadingVideo : "";
 		  if(this.loadingVideo) this.showLoadingGif = false;
 		}catch(err){
 		  this.loadingCaption = document.title;
@@ -108,6 +245,7 @@ LoadingJS.prototype = {
 		this.bg = document.createElement("div");
 		this.bg.setAttribute("style", "transform:scale(1);");
 
+		this.loadingAnimation = true;
 		if(this.showLoadingGif)
 			this.initAnimationHtml();
 
@@ -335,6 +473,15 @@ LoadingJS.prototype = {
 				$(this.image).attr("src", "");
 				$("body").css({"background-color" : ""});
 			}.bind(this));
+			window.setTimeout(function(){
+				if(!this.loadingAnimation) return;
+				this.loadingAnimation = false;
+				$(this.img3).attr("class", "");
+				$("body>style").html("");
+				$(this.bg).remove();
+				$(this.image).attr("src", "");
+				$("body").css({"background-color" : ""});
+			}.bind(this), 1000);
 		}
 
 	},
