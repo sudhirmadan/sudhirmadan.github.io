@@ -2,7 +2,7 @@
  * 
  * VERSION: 0.2.9
  * DATE: 2019-4-12 17:18:23
- * UPDATES AND DOCS AT: http://www.fliphtml5.com
+ * UPDATES AND DOCS AT: https://fliphtml5.com
  * 
  * @license Copyright (c) 2012-2019 FlipHTML5 Software Co., Ltd. All rights reserved.
  * @author: Terence Z., Q.Y.B., support@fliphtml5.com.
